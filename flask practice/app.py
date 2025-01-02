@@ -1,21 +1,18 @@
 from flask import Flask, session, render_template, redirect, url_for, request
-from odeta import database
+from odeta import localbase
 
 # Machine database
-ma = database('my_database.db')
-table = ma('my_table')
+db = locabase('my_database.db')
+table = db('my_table')
 
 # Parties database
-pa = database('my_parties.db')
-tables = pa('pa_table')
+tables = db('pa_table')
 
 # Contact us database
-ca = database('my_contact.db')
-tabless = ca('ca_table')
+tabless = db('ca_table')
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  
-
 
 @app.route('/')
 def home():
@@ -38,19 +35,30 @@ def login():
             return render_template('login.html', error=error)
     return render_template('login.html')
 
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    pass
 
+@app.route('/forgot', methods=['GET', 'POST'])
+def forgot_pass():
+    pass
+    
 @app.route('/logout')
 def logout():
     session.pop('username', None)
     return redirect(url_for('login'))
 
+"""
+Merge both functions to create a single endpoint which receives GET and POST requests and a variable which will differentiate.
+"""
+
 
 @app.route('/data', methods=['GET', 'POST'])
 def data():
-    if 'username' in session:
+    if 'username' in session: # implement JWT token authentication here when using REST API.
         if request.method == 'POST':
             new_entry = {
-                "machine_name": request.form.get('machine-name'),
+                "machine_name": request.form.get('machine-name'), # try to use json body, instead of check forms
                 "machine_company": request.form.get('machine-company'),
                 "operation_type": request.form.get('operation-type'),
                 "trip_calculation": request.form.get('trip-calculation'),
@@ -83,7 +91,6 @@ def parties():
         return render_template('data.html', data=data_all, parties=parties_all)
     
     return redirect(url_for('login'))
-
 
 @app.route('/contactus', methods=['GET','POST'])
 def contactus():
