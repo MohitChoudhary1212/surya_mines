@@ -50,13 +50,10 @@
 
             <form id="loginForm" action="/login" method="POST">
                 <div class="mb-4">
-                    <input name="uname" type="text" class="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Username"/>
-                </div>
+                    <input name="uname" type="text" class="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Username" value="sachin" />
+                </div>                
                 <div class="mb-4">
-                    <input name="email" type="text" class="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="E-mail address or phone number"/>
-                </div>
-                <div class="mb-4">
-                    <input name="password" type="password" class="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Password"/>
+                    <input name="password" type="password" class="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Password" value="1234"/>
                 </div>
                 <div class="mb-6 flex items-center">
                     <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-500 focus:ring-blue-500" id="remember"/>
@@ -72,7 +69,7 @@
                     </div>  
                 {% endif %}
             </form>
-            <button class="mt-6 text-sm text-black-600 w-full">Not a member yet? <a href="#" class="text-orange-500 hover:text-orange-700">Sign up</a></button>
+            <button class="mt-6 text-sm text-black-600 w-full">Not a member yet? <a href="/register" class="text-orange-500 hover:text-orange-700">Sign up</a></button>
         </div>
     </div>
 </body>

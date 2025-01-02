@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SURYA_MINES</title>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
         * {
             margin: 0;
@@ -13,9 +14,7 @@
         }
 
         body {
-            font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
             background-color: #ffffff;
-            color: #1e3a8a;
         }
 
         .navbar {
@@ -97,8 +96,9 @@
     </style>
 </head>
 <body>
+    {% if session %}
     <nav class="navbar">
-        <div class="brand">SURYA_MINES</div>
+        <div class="brand">SURYA_MINES - Welcome {{ session.username }} </div>
         <div class="menu-icon" onclick="toggleMenu()">&#8942;</div>
         <div class="menu">
             <a href="/">Home</a>
@@ -107,6 +107,7 @@
             <a href="/logout">Log-out</a>
         </div>
     </nav>
+    {% endif %}
 
     <div class="content">
         {% block content %}
