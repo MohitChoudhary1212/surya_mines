@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .element{
+            background: 
+            radial-gradient(
+                circle at top left,
+                rgba(255,0,255, 2),
+                transparent 400px
+            ),
+            radial-gradient(
+                circle at top right,
+                rgba(255, 220, 255, 0.5), 
+                transparent 1200px
+            ),
+            radial-gradient(
+                at bottom left,
+                rgba(255, 0, 255, 0.5), 
+                transparent 1200px
+            ),
+            radial-gradient(
+            at bottom right,
+            rgba(255, 20, 100, 0.5), 
+            transparent 600px
+            );
+        }
+    </style>
+</head>
+<body class="element"> 
+    <div class="min-h-screen p-10 select-none">
+        <div class="mx-auto max-w-[400px] rounded-lg bg-white p-6 shadow-md text-center"  style="background: linear-gradient(silver,yellowgreen); margin-top: 90px;">
+            <div class="mb-4 flex justify-end">
+                <button class="text-gray-500 hover:text-gray-700">
+                    <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <center>
+                <img src="https://cuprite.suryamines.com/_nuxt/img/cuprite.65f0729.png" class="h-20 p-3" alt="">
+            </center>
+
+            <p class="mb-6 font-medium text-lg text-gray-800">One account<br />Many possibilities</p>
+
+            <form id="loginForm" action="/login" method="POST">
+                <div class="mb-4">
+                    <input name="uname" type="text" class="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Username"/>
+                </div>
+                <div class="mb-4">
+                    <input name="email" type="text" class="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="E-mail address or phone number"/>
+                </div>
+                <div class="mb-4">
+                    <input name="password" type="password" class="w-full rounded-md border border-gray-300 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Password"/>
+                </div>
+                <div class="mb-6 flex items-center">
+                    <input type="checkbox" class="form-checkbox h-4 w-4 text-blue-500 focus:ring-blue-500" id="remember"/>
+                    <label for="remember" class="ml-2 text-black-600">Remember me</label>
+                    <button type="button" onclick="alert('Work in progress.')" class="ml-auto text-sm text-orange-500 hover:text-orange-700">Forgot password?</button>
+                </div>
+
+                <button type="submit" class="rounded-md w-full mb-5 bg-gray-800 px-4 py-2 font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-700">Sign in</button>
+
+                {% if error %}
+                    <div class="p-3 px-4 py-2 text-xs text-red-500 bg-red-100 ">
+                        {{ error }}
+                    </div>  
+                {% endif %}
+            </form>
+            <button class="mt-6 text-sm text-black-600 w-full">Not a member yet? <a href="#" class="text-orange-500 hover:text-orange-700">Sign up</a></button>
+        </div>
+    </div>
+</body>
+</html>

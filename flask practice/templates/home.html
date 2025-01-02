@@ -1,0 +1,143 @@
+{%extends 'base.html'%}
+{%block content%}
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            height: 100vh;
+            width: 100vw;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .slider-wrapper {
+            width: 90vw;
+            height: 90vh;
+            overflow: hidden;
+            border: 2px solid black;
+            border-radius: 10px;
+            position: relative;
+        }
+        .slide {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+        .slide img {
+            width: 90vw;
+            height: 90vh;
+            object-fit: cover;
+            flex-shrink: 0;
+        }
+        button {
+            font-size: 29px;
+            cursor: pointer;
+            height: 60px;
+            width: 60px;
+            background-color: grey;
+            border-radius: 5px;
+            border: 2px solid black;
+            z-index: 10;
+        }
+        button:hover {
+            background-color: lightgray;
+        }
+        .left-btn {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        .right-btn {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        p {
+            background-color: #123;
+            padding: 20px 14px;
+            font-size: 19px;
+            color: white;
+            font-weight: bold;
+            text-align: center;
+            margin: 0;
+        }
+        @media (max-width: 768px) {
+            .slider-wrapper {
+                width: 95vw;
+                height: 50vh;
+            }
+            .slide img {
+                width: 95vw;
+                height: 50vh;
+            }
+            button {
+                height: 50px;
+                width: 50px;
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button id="left" class="left-btn">&#8592;</button>
+        <div class="slider-wrapper">
+            <div class="slide" id="slider">
+                <img src="https://plus.unsplash.com/premium_photo-1682142162574-b304bacbdc3f?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8bWluaW5nfGVufDB8fDB8fHww" alt="Image 1">
+                <img src="https://images.unsplash.com/photo-1600363503477-a8d1d6d57dfc?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fG1pbmluZ3xlbnwwfHwwfHx8MA%3D%3D" alt="Image 2">
+                <img src="https://images.unsplash.com/photo-1603479147545-1ae6bc737e48?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTZ8fG1pbmluZ3xlbnwwfHwwfHx8MA%3D%3D" alt="Image 3">
+                <img src="https://images.unsplash.com/photo-1523848309072-c199db53f137?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8bWluaW5nfGVufDB8fDB8fHww" alt="Image 4">
+                <img src="https://images.unsplash.com/photo-1523660778745-247ed0bcce31?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8bWluaW5nfGVufDB8fDB8fHww" alt="Image 5">
+            </div>
+        </div>
+        <button id="right" class="right-btn">&#8594;</button>
+    </div>
+    <p>&copy; 2025 Surya Mines. All rights reserved.</p>
+    <script>
+        const left = document.getElementById('left');
+        const right = document.getElementById('right');
+        const slider = document.getElementById('slider');
+        const images = slider.querySelectorAll('img');
+        let index = 0;
+        let autoSlide;
+
+        function slideTo(index) {
+            slider.style.transform = `translateX(-${index * 90}vw)`;
+        }
+
+        function nextSlide() {
+            index = (index + 1) % images.length;
+            slideTo(index);
+        }
+
+        function prevSlide() {
+            index = (index - 1 + images.length) % images.length;
+            slideTo(index);
+        }
+
+        right.addEventListener('click', () => {
+            clearInterval(autoSlide);
+            nextSlide();
+            startAutoSlide();
+        });
+
+        left.addEventListener('click', () => {
+            clearInterval(autoSlide);
+            prevSlide();
+            startAutoSlide();
+        });
+
+        function startAutoSlide() {
+            autoSlide = setInterval(nextSlide, 3000);
+        }
+
+        startAutoSlide();
+    </script>
+</body>
+</html>
+{%endblock%}

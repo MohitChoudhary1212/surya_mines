@@ -1,0 +1,301 @@
+{% extends 'base.html' %}
+{% block content %}
+<style>
+    header {
+        background-color: #004080;
+        color: #fff;
+        text-align: center;
+        padding: 1em 0;
+    }
+
+    .container {
+        display: flex;
+        justify-content: center;
+        padding: 2em;
+    }
+
+    .form-container {
+        background-color: #fff;
+        padding: 2em;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 500px;
+    }
+
+    .form-container h2 {
+        color: #004080;
+        text-align: center;
+    }
+
+    .form-container label {
+        display: block;
+        margin-top: 1em;
+        font-weight: bold;
+    }
+
+    .form-container input,
+    .form-container select {
+        margin-top: 0.5em;
+        padding: 0.8em;
+        width: 100%;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .form-container button {
+        margin-top: 1.5em;
+        padding: 0.8em;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .form-container .btn-create {
+        background-color: #004080;
+        color: #fff;
+    }
+
+    .form-container .btn-cancel {
+        background-color: #ccc;
+        color: #333;
+        margin-left: 1em;
+    }
+
+    .form-container .btn-parties {
+        background-color: #28a745;
+        color: #fff;
+        margin-top: 1em;
+    }
+
+    .form-container button:hover {
+        opacity: 0.9;
+    }
+
+    footer {
+        text-align: center;
+        padding: 1em 0;
+        margin-top: 2em;
+        background-color: #004080;
+        color: #fff;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1em;
+    }
+
+    table, th, td {
+        border: 1px solid #ccc;
+    }
+
+    th, td {
+        padding: 0.8em;
+        text-align: left;
+    }
+
+    th {
+        background-color: #004080;
+        color: white;
+    }
+
+    #table {
+        display: none;
+    }
+
+    #ram {
+        display: block;
+    }
+
+    #delete {
+        background-color: red;
+        padding: 4px 5px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        color: black;
+        font-weight: bold;
+        margin-right: 12px;
+    }
+
+    #update {
+        background-color: #003366;
+        border: none;
+        padding: 4px 5px;
+        border-radius: 5px;
+        font-weight: bold;
+        cursor: pointer;
+        color: wheat;
+        margin-right: 3px;
+    }
+
+    #heading {
+        display: none;
+    }#par-btn{
+        display: none   ;
+    }
+    #mac-btn{
+        display: block;
+    }
+</style>
+
+<body>
+<header>
+    <h1>Machine Details Form - Surya Mines</h1>
+</header>
+
+<div class="container">
+    <div class="form-container">
+        <h2 id="changes">Enter Machine Details</h2>
+        <form action="/data" method="POST" id="form">
+            <div id="machine-fields">
+                <label for="machine-name">Machine Name</label>  
+                <input type="text" id="machine-name" name="machine-name" required placeholder="Machine Name">
+                
+                <label for="machine-company">Machine Company</label>
+                <select id="machine-company" name="machine-company" required>
+                    <option value="">Select a Truck Company</option>
+                    <option value="Volvo">Volvo</option>
+                    <option value="Scania">Scania</option>
+                    <option value="Tata">Tata</option>
+                    <option value="Ashok Leyland">Ashok Leyland</option>
+                    <option value="MAN">MAN</option>
+                </select>
+                
+                <label for="operation-type">Operation Type</label>
+                <select id="operation-type" name="operation-type" required>
+                    <option value="">Select Operation Type</option>
+                    <option value="Mining">Mining</option>
+                    <option value="Transport">Transport</option>
+                    <option value="Rented">Rented</option>
+                </select>
+                
+                <label for="trip-calculation">Trip Calculation</label>
+                <select id="trip-calculation" name="trip-calculation" required>
+                    <option value="Yes">Yes</option>
+                    <option value="No">No</option>
+                </select>
+                
+                <label for="usage-type">Usage Type</label>
+                <select id="usage-type" name="usage-type" required>
+                    <option value="Kilometers">Kilometers</option>
+                    <option value="Hours">Hours</option>
+                </select>
+                
+                <label for="service-interval">Service Interval</label>
+                <input type="number" id="service-interval" name="service-interval" required>
+            </div>
+            <div id="mac-btn">
+            <button type="submit" class="btn-create">Create</button>
+            <button type="reset" class="btn-cancel">Cancel</button>
+            </div>
+            <button type="button" class="btn-parties" id="toggleButton" onclick="toggleForm()">Parties</button>
+
+        </form>
+
+        <div id="ram">
+            <h2>Machine Data</h2>
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Company</th>
+                    <th>Operation Type</th>
+                    <th>Trip Calculation</th>
+                    <th>Usage-Type</th>
+                    <th>Service Interval</th>
+                    <th>Action</th>
+                </tr>
+                {% for item in data %}
+                <tr>
+                    <td>{{ item['machine_name'] }}</td>
+                    <td>{{ item['machine_company'] }}</td>
+                    <td>{{ item['operation_type'] }}</td>
+                    <td>{{ item['trip-calculation'] }}</td>
+                    <td>{{ item['usage-type'] }}</td>
+                    <td>{{ item['service-interval'] }}</td>
+                    <td>
+                        <form action="/delete/{{ item['id'] }}" method="POST" style="display:inline;">
+                            <button type="submit" id="delete">Delete</button>
+                        </form>
+                        <form action="/update/{{ item['id'] }}" method="GET" style="display:inline;">
+                            <button type="submit" id="update">Update</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <form action="/parties" method="post">
+            <div id="party-fields" style="display: none;">
+                <label for="party-name">Party Name</label>
+                <input type="text" id="party-name" name="party-name" required>
+                
+                <label for="party-address">Address</label>
+                <input type="text" id="party-address" name="party-address" required>
+                <button class="btn-create" type="submit">Create</button>
+                <button class="btn-cancel" type="reset">Cancel</button>
+            </div>
+        </form>
+
+        <table id="table">
+            <h2 id="heading">Parties Data</h2>
+            <tr>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Actions</th>
+            </tr>
+            {% for item in parties %}
+            <tr>
+                <td>{{ item['party_name'] }}</td>
+                <td>{{ item['party_address'] }}</td>
+                <td>
+                    <form action="/delete_party/{{ item['id'] }}" method="POST" style="display:inline;">
+                        <button type="submit" id="delete">Delete</button>
+                    </form>
+                    <form action="/update_party/{{ item['id'] }}" method="GET" style="display:inline;">
+                        <button type="submit" id="update">Update</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+
+<script>
+    function toggleForm() {
+        const machineFields = document.getElementById('machine-fields');
+        const partyFields = document.getElementById('party-fields');
+        const toggleButton = document.getElementById('toggleButton');
+        const table = document.getElementById('table');
+        const ram = document.getElementById('ram');
+        const macbtn = document.getElementById('mac-btn');
+        const heading = document.getElementById('heading');
+        const changes = document.getElementById('changes');
+        
+        if (machineFields.style.display !== 'none') {
+            machineFields.style.display = 'none';
+            partyFields.style.display = 'block';
+            ram.style.display = 'none';
+            table.style.display = 'block';
+            macbtn.style.display = 'none';
+            heading.style.display = 'block';
+            toggleButton.textContent = 'Machines';
+            changes.textContent = 'Enter Parties Details';  
+        } else {
+            machineFields.style.display = 'block';
+            partyFields.style.display = 'none';
+            toggleButton.textContent = 'Parties';
+            heading.style.display = 'none'
+            mac.style.display = 'block';
+            ram.style.display = 'block';
+            table.style.display = 'none';
+            changes.textContent = 'Enter Machine Details';
+        }
+    }
+</script>
+
+</body>
+</html>
+{% endblock %}
